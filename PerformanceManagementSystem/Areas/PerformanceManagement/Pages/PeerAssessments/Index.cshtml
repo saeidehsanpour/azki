@@ -1,0 +1,48 @@
+﻿@page
+@model PerformanceManagementSystem.Areas.PerformanceManagement.Pages.PeerAssessments.IndexModel
+
+@{
+    ViewData["Title"] = "لیست وظیفه های ثبت شده";
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TaskOfPeriods[0].Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TaskOfPeriods[0].PeerName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TaskOfPeriods[0].DutyInTask)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TaskOfPeriods[0].SuccessRate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.TaskOfPeriods)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PeerName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DutyInTask)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SuccessRate)
+                </td>
+                <td>
+                    <a type="button" class="btn btn-sm btn-success" asp-page="./Edit" asp-route-taskId="@item.MainTaskId" asp-route-id="@item.Id">ویرایش</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

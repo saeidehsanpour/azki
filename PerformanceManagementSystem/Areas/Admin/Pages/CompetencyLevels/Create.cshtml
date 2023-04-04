@@ -1,0 +1,52 @@
+﻿@page
+@model PerformanceManagementSystem.Areas.Admin.Pages.CompetencyLevels.CreateModel
+
+@{
+    ViewData["Title"] = "ثبت سطح جدید";
+}
+
+<h1>ایجاد</h1>
+
+<h4>سطح جدید</h4>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input asp-for="CompetencyLevel.CompetencyId" type="hidden" />
+            <div class="form-group">
+                <label asp-for="CompetencyLevel.Title" class="control-label"></label>
+                <input asp-for="CompetencyLevel.Title" class="form-control" />
+                <span asp-validation-for="CompetencyLevel.Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CompetencyLevel.Level" class="control-label"></label>
+                <input asp-for="CompetencyLevel.Level" class="form-control" />
+                <span asp-validation-for="CompetencyLevel.Level" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CompetencyLevel.Description" class="control-label"></label>
+                <textarea cols="40" rows="10" asp-for="CompetencyLevel.Description" class="form-control"></textarea>
+                <span asp-validation-for="CompetencyLevel.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="CompetencyLevel.Active" /> @Html.DisplayNameFor(model => model.CompetencyLevel.Active)
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="ثبت" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index" asp-route-competencyId="@Model.CompetencyLevel.CompetencyId">بازگشت به لیست</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

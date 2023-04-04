@@ -1,0 +1,87 @@
+﻿@page
+@model PerformanceManagementSystem.Areas.PerformanceManagement.Pages.SelfAssessmentOveralls.IndexModel
+
+@{
+    ViewData["Title"] = "جمع بندی شایستگی ها";
+}
+<div class="card">
+    <div class="card-header">
+        جمع بندی شایستگی ها
+    </div>
+    <div class="card-body">
+        <form method="post">
+            <input type="hidden" asp-for="TaskOfPeriodOverall.PerformanceManagementPeriodUserMappingId" />
+            <table class="table mb-3">
+                <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.TaskOfPeriods[0].Title)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.TaskOfPeriods[0].CompetencyLevel)
+                    </th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in Model.TaskOfPeriods)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Title)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CompetencyLevel)
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+            <table class="table table-bordered">
+                <tbody>
+                @for (int i = 0; i < Model.CompetencyLevelsNotSubmitted.Count; i++)
+                {
+                    <tr class="table-group-divider">
+                        <td colspan="2">
+                            @Html.DisplayFor(modelItem => Model.CompetencyLevelsNotSubmitted[i].Title)
+                        </td>
+                        <td>
+                            <label asp-for="TaskOfPeriodOverall.CompetencyLevelTaskMappings[i].CompetencyLevelId"></label>
+                            <select asp-for="TaskOfPeriodOverall.CompetencyLevelTaskMappings[i].CompetencyLevelId" class="form-control">
+                                @foreach (var item in Model.CompetencyLevelsNotSubmitted[i].Levels)
+                                {
+                                        <option value="@item.Id">@Html.Raw(item.Description?.Replace("\r\n", "<br />"))</option>
+                                }
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <label asp-for="TaskOfPeriodOverall.CompetencyLevelTaskMappings[i].Description"></label>
+                            <textarea cols="40" rows="10" asp-for="TaskOfPeriodOverall.CompetencyLevelTaskMappings[i].Description" class="form-control"></textarea>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+            <div class="form-group">
+                <label asp-for="TaskOfPeriodOverall.Continue"></label>
+                <textarea cols="40" rows="10" asp-for="TaskOfPeriodOverall.Continue" class="form-control"></textarea>
+                <span asp-validation-for="TaskOfPeriodOverall.Continue" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TaskOfPeriodOverall.ShouldImprove"></label>
+                <textarea cols="40" rows="10" asp-for="TaskOfPeriodOverall.ShouldImprove" class="form-control"></textarea>
+                <span asp-validation-for="TaskOfPeriodOverall.ShouldImprove" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TaskOfPeriodOverall.Description"></label>
+                <textarea cols="40" rows="10" asp-for="TaskOfPeriodOverall.Description" class="form-control"></textarea>
+                <span asp-validation-for="TaskOfPeriodOverall.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="ثبت" class="btn btn-primary"/>
+            </div>
+        </form>
+    </div>
+</div>

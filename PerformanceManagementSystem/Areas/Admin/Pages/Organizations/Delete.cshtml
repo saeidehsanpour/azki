@@ -1,0 +1,47 @@
+﻿@page
+@model PerformanceManagementSystem.Areas.Admin.Pages.Organizations.DeleteModel
+
+@{
+    ViewData["Title"] = "حذف";
+}
+
+<h1>حذف</h1>
+
+<h3>آیا از حذف این مورد اطمینان دارید?</h3>
+<div>
+    <h4>شرکت</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Organization.AdminUserName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Organization.AdminUserName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Organization.Title)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Organization.Title)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Organization.Active)
+        </dt>
+        <dd class="col-sm-10">
+            @if (Model.Organization.Active)
+            {
+                <text>فعال</text>
+            }
+            else
+            {
+                <text>غیر فعال</text>
+            }
+        </dd>
+    </dl>
+
+    <form method="post">
+        <input type="hidden" asp-for="Organization.Id" />
+        <input type="submit" value="حذف" class="btn btn-danger" /> |
+        <a asp-page="./Index">بازگشت به لیست</a>
+    </form>
+</div>

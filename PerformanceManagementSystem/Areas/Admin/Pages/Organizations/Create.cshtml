@@ -1,0 +1,43 @@
+﻿@page
+@model PerformanceManagementSystem.Areas.Admin.Pages.Organizations.CreateModel
+
+@{
+    ViewData["Title"] = "ایجاد شرکت جدید";
+}
+
+<h1>ایجاد</h1>
+
+<h4>شرکت</h4>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Organization.AdminUserId" class="control-label"></label>
+                <select asp-for="Organization.AdminUserId" class ="form-control" asp-items="ViewBag.AdminUserId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Organization.Title" class="control-label"></label>
+                <input asp-for="Organization.Title" class="form-control" />
+                <span asp-validation-for="Organization.Title" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Organization.Active" /> @Html.DisplayNameFor(model => model.Organization.Active)
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="ثبت" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">بازگشت به لیست</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,40 @@
+﻿@page
+@model PerformanceManagementSystem.Areas.Admin.Pages.CompetencyCategories.DeleteModel
+
+@{
+    ViewData["Title"] = "حذف";
+}
+
+<h1>حذف</h1>
+
+<h3>آیا از حذف این مورد اطمینان دارید؟</h3>
+<div>
+    <h4>دسته بندی شایستگی</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CompetencyCategory.Title)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CompetencyCategory.Title)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CompetencyCategory.Description)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CompetencyCategory.Description)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CompetencyCategory.Active)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CompetencyCategory.Active)
+        </dd>
+    </dl>
+
+    <form method="post">
+        <input type="hidden" asp-for="CompetencyCategory.Id" />
+        <input type="submit" value="حذف" class="btn btn-danger" /> |
+        <a asp-page="./Index">بازگشت به لیست</a>
+    </form>
+</div>

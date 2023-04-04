@@ -1,0 +1,58 @@
+﻿@page
+@model PerformanceManagementSystem.Areas.PerformanceManagement.Pages.Exceptions.EditModel
+@{
+    ViewData["Title"] = "انتظارات مدیر";
+}
+
+<div class="card mb-3">
+    <div class="card-header">
+        انتظارات مدیر مستقیم
+    </div>
+    <div class="card-body">
+        <h6 class="card-text">@Html.DisplayNameFor(modelItem => Model.UserException.Continue):</h6>
+        <p class="card-text">@Model.UserException.Continue</p><form method="post">
+            <input type="hidden" asp-for="UserException.PerformanceManagementPeriodUserMappingId" />
+            <input type="hidden" asp-for="UserException.Continue" />
+
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.UserException.Items[0].CompetencyName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.UserException.Items[0].Description)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.UserException.Items[0].Use)
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.UserException.Items.Count; i++)
+                    {
+                        <input type="hidden" asp-for="UserException.Items[i].CompetencyId" />
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => Model.UserException.Items[i].CompetencyName)
+                            </td>
+                            <td>
+                                <textarea cols="40" rows="10" class="form-control" asp-for="UserException.Items[i].Description"></textarea>
+                            </td>
+                            <td>
+                                <div class="form-group form-check">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input" asp-for="UserException.Items[i].Use" />
+                                    </label>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="form-group">
+                <input type="submit" value="ثبت" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>

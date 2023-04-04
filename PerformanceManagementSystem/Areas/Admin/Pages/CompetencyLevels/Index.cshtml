@@ -1,0 +1,54 @@
+﻿@page
+@model PerformanceManagementSystem.Areas.Admin.Pages.CompetencyLevels.IndexModel
+
+@{
+    ViewData["Title"] = "لیست سطوح";
+}
+
+<h1>سطوح</h1>
+<h4>@Model.Competency.Title</h4>
+<p>
+    <a asp-page="Create" asp-route-competencyId="@Model.Competency.Id">ایجاد جدید</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CompetencyLevels[0].Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CompetencyLevels[0].Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CompetencyLevels[0].Active)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CompetencyLevels[0].Level)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.CompetencyLevels)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Active)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Level)
+                </td>
+                <td>
+                    <a type="button" class="btn btn-sm btn-success" asp-page="./Edit" asp-route-id="@item.Id">ویرایش</a>
+                    <a type="button" class="btn btn-sm btn-danger" asp-page="./Delete" asp-route-id="@item.Id">حذف</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

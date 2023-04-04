@@ -1,0 +1,14 @@
+﻿@model List<PerformanceManagementSystem.Data.Views.MenuItems.UserMenuItemResponseDto>
+<div class="list-group">
+    @if (Model.Any())
+    {
+        @foreach (var item in Model)
+        {
+            <a class="@item.Class" asp-page="@item.AspPage" asp-area="@item.AspArea" aria-current="@item.AriaCurrent">@item.Title</a>
+        }
+    }
+    else
+    {
+        <h4>یک دوره را انتخاب کنید</h4>
+    }
+</div>

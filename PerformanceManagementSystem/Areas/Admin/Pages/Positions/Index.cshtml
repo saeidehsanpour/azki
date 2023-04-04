@@ -1,0 +1,42 @@
+﻿@page
+@model PerformanceManagementSystem.Areas.Admin.Pages.Positions.IndexModel
+
+@{
+    ViewData["Title"] = "لیست مقام ها";
+}
+
+<h1>مقام ها</h1>
+<h4>@Model.Organization.Title</h4>
+<p>
+    <a asp-page="Create" asp-route-organizationId="@Model.Organization.Id">ایجاد جدید</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Positions[0].Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Positions[0].Active)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Positions) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Active)
+            </td>
+            <td>
+                <a type="button" class="btn btn-sm btn-primary" asp-page="./CompetencyMapping" asp-route-positionId="@item.Id">اتصال به شایستگی</a>
+                <a type="button" class="btn btn-sm btn-success" asp-page="./Edit" asp-route-id="@item.Id">ویرایش</a>
+                <a type="button" class="btn btn-sm btn-danger" asp-page="./Delete" asp-route-id="@item.Id">حذف</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

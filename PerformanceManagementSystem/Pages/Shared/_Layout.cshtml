@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ازکی - @ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.rtl.min.css" />
+    <link href="~/icons/coreui/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    @await RenderSectionAsync("Css", required: false)
+
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-page="/Index">سامانه مدیریت عملکرد</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    @if (User.Identity is { IsAuthenticated: true })
+                    {
+                        <ul class="navbar-nav flex-grow-1 nav nav-pills">
+                            @if (User.IsInRole(Tools.Roles.Administrator) || User.IsInRole(Tools.Roles.President))
+                            {
+
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="Admin" asp-page="/Organizations/index">شرکت ها</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="Admin" asp-page="/CompetencyCategories/index">شایستگی ها</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="Admin" asp-page="/Users/index">کاربران</a>
+                                </li>
+                            }
+                            else
+                            {
+                                @await Component.InvokeAsync("PerformanceManagementPeriodOfUser")
+                            }
+                        </ul>
+                    }
+
+                    <partial name="_LoginPartial" />
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                @* <partial name="_UsersNav" /> *@
+                @if (User.Identity is { IsAuthenticated: true })
+                {
+                    @await Component.InvokeAsync("UserMenuItems")
+                }
+            </div>
+            <main role="main" class="col-md-9">
+                @RenderBody()
+            </main>
+        </div>
+
+    </div>
+
+    @* <footer class="border-top footer text-muted mt-auto"> *@
+    @*     <div class="container"> *@
+    @*         &copy; 2023 - ازکی - <a asp-area="" asp-page="/Privacy">پرایویسی</a> *@
+    @*     </div> *@
+    @* </footer> *@
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

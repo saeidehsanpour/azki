@@ -1,0 +1,35 @@
+﻿@page
+@model PerformanceManagementSystem.Areas.PerformanceManagement.Pages.ManagerEvaluations.IndexModel
+
+@{
+    ViewData["Title"] = "لیست مدیران";
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Managers[0].Fullname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Managers[0].Position)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Managers) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Fullname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Position)
+            </td>
+            <td>
+                <a type="button" class="btn btn-sm btn-primary" asp-page="./Edit" asp-route-managerId="@item.Id">ثبت</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,47 @@
+﻿@page
+@model PerformanceManagementSystem.Areas.Admin.Pages.CompetencyCategories.EditModel
+
+@{
+    ViewData["Title"] = "ویرایش";
+}
+
+<h1>ویرایش</h1>
+
+<h4>دسته بندی شایستگی</h4>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="CompetencyCategory.Id" />
+            <div class="form-group">
+                <label asp-for="CompetencyCategory.Title" class="control-label"></label>
+                <input asp-for="CompetencyCategory.Title" class="form-control" />
+                <span asp-validation-for="CompetencyCategory.Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CompetencyCategory.Description" class="control-label"></label>
+                <textarea cols="40" rows="10" asp-for="CompetencyCategory.Description" class="form-control"></textarea>
+                <span asp-validation-for="CompetencyCategory.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="CompetencyCategory.Active" /> @Html.DisplayNameFor(model => model.CompetencyCategory.Active)
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="ذخیره" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">بازگشت به لیست</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

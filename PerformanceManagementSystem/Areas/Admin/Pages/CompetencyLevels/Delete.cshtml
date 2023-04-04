@@ -1,0 +1,46 @@
+﻿@page
+@model PerformanceManagementSystem.Areas.Admin.Pages.CompetencyLevels.DeleteModel
+
+@{
+    ViewData["Title"] = "حذف";
+}
+
+<h1>حذف</h1>
+
+<h3>آیا از حذف این مورد اطمینان دارید؟</h3>
+<div>
+    <h4>سطح شایستگی</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CompetencyLevel.Title)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CompetencyLevel.Title)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CompetencyLevel.Description)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CompetencyLevel.Description)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CompetencyLevel.Active)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CompetencyLevel.Active)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CompetencyLevel.Level)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CompetencyLevel.Level)
+        </dd>
+    </dl>
+
+    <form method="post">
+        <input type="hidden" asp-for="CompetencyLevel.Id" />
+        <input type="submit" value="حذف" class="btn btn-danger" /> |
+        <a asp-page="./Index" asp-route-competencyId="@Model.CompetencyLevel.CompetencyId">بازگشت به لیست</a>
+    </form>
+</div>

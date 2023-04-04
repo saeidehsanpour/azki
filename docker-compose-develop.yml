@@ -1,0 +1,18 @@
+version: '3.4'
+services:
+  azki.develop:
+    image: '${DOCKER_REGISTRY-}azki-develop'
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    container_name: azki-develop
+    ports:
+      - 127.0.0.1:45000:80
+    environment:
+      - DockerConfiguration__UpdateCaCertificate=true
+      - ASPNETCORE_ENVIRONMENT=Development
+
+networks:
+  default:
+    external:
+      name: catersoft-develop

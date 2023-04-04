@@ -1,0 +1,71 @@
+﻿@page
+@using PerformanceManagementSystem.Data.Views.TaskOfPeriods
+@model PerformanceManagementSystem.Areas.PerformanceManagement.Pages.ManagerReports.DetailModel
+
+@{
+    ViewData["Title"] = "جزئیات وظیفه";
+}
+
+<div class="card mb-3">
+    <div class="card-header">
+        ارزیابی نهایی @Model.TaskOfPeriod.Fullname
+    </div>
+    <div class="card-body">
+        <h6 class="card-text">@Html.DisplayNameFor(modelItem => Model.TaskOfPeriod.Description):</h6>
+        <p class="card-text">@Model.TaskOfPeriod.Description</p>
+        <h6 class="card-text">@Html.DisplayNameFor(modelItem => Model.TaskOfPeriod.Continue):</h6>
+        <p class="card-text">@Model.TaskOfPeriod.Continue</p>
+        <h6 class="card-text">@Html.DisplayNameFor(modelItem => Model.TaskOfPeriod.ShouldImprove):</h6>
+        <p class="card-text">@Model.TaskOfPeriod.ShouldImprove</p>
+        <h6 class="card-text">@Html.DisplayNameFor(modelItem => Model.TaskOfPeriod.RoleAndInfluence):</h6>
+        <p class="card-text">@Model.TaskOfPeriod.RoleAndInfluence</p>
+        <h6 class="card-text">نتیجه ماتریس "کیفیت-زمان" :</h6>
+
+        <div class="container text-center">
+            <div class="row justify-content-center">
+                <div class="col-5 mb-1">
+                    <div class="position-relative">
+                        <label class="position-absolute top-100 start-100 translate-middle">زمان انجام وظایف</label>
+                        <label class="position-absolute top-0 start-100 translate-middle">زیاد</label>
+                        <input type="radio" class="btn-check" name="TaskOfPeriodOverall.SuccessRate" disabled value="25" id="buttonA" autocomplete="off" checked="@(Model.TaskOfPeriod.SuccessRate == SuccessRateRequestEnum.A)">
+                        <label class="btn btn-outline-primary btn-large" for="buttonA">A</label>
+                        <input type="radio" class="btn-check" name="TaskOfPeriodOverall.SuccessRate" disabled value="15" id="buttonC" autocomplete="off" checked="@(Model.TaskOfPeriod.SuccessRate == SuccessRateRequestEnum.C)">
+                        <label class="btn btn-outline-primary btn-large" for="buttonC">C</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container text-center">
+            <div class="row justify-content-center">
+                <div class="col-5">
+                    <div class="position-relative">
+                        <label class="position-absolute top-100 start-100 translate-middle">کم</label>
+                        <label class="position-absolute top-100 start-50 translate-middle">کیفیت انجام وظایف</label>
+                        <label class="position-absolute top-100 start-0 translate-middle">زیاد</label>
+                        <input type="radio" class="btn-check" name="TaskOfPeriodOverall.SuccessRate" disabled value="20" id="buttonB" autocomplete="off" checked="@(Model.TaskOfPeriod.SuccessRate == SuccessRateRequestEnum.B)">
+                        <label class="btn btn-outline-primary btn-large" for="buttonB">B</label>
+                        <input type="radio" class="btn-check" name="TaskOfPeriodOverall.SuccessRate" disabled value="10" id="buttonD" autocomplete="off" checked="@(Model.TaskOfPeriod.SuccessRate == SuccessRateRequestEnum.D)">
+                        <label class="btn btn-outline-primary btn-large" for="buttonD">D</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h6 class="card-text mt-5">ارزیابی شایستگی ها</h6>
+
+        <table class="table table-bordered">
+            <tbody>
+                @foreach (var item in Model.TaskOfPeriod.CompetencyLevels)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CompetencyName)
+                        </td>
+                        <td>
+                            @Html.Raw(item.CompetencyLevelName?.Replace("\r\n", "<br />"))
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

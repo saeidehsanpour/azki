@@ -1,0 +1,61 @@
+﻿@page
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model PerformanceManagementSystem.Areas.PerformanceManagement.Pages.SelfReports.IndexModel
+
+@{
+    ViewData["Title"] = "نتایج ارزیابی";
+}
+@for (int i = 0; i < Model.TaskOfPeriods.Count; i++)
+{
+    <div class="card mb-3">
+        <div class="card-header">
+            خود ارزیابی وظیفه شماره @(i+1)
+        </div>
+        <div class="card-body">
+            <h6 class="card-text">عنوان وظیفه یا پروژه شماره @(i + 1):</h6>
+            <p class="card-text">@Model.TaskOfPeriods[i].Title</p>
+            <h6 class="card-text">میزان موفقیت در وظیفه:</h6>
+            <p class="card-text">@Model.TaskOfPeriods[i].SuccessRate</p>
+            <h6 class="card-text">شرح کامل وظیفه:</h6>
+            <p class="card-text">@Html.Raw(Model.TaskOfPeriods[i].Description?.Replace("\r\n", "<br />"))</p>
+            <h6 class="card-text">موفقیت و اثرگذاری من در این وظیفه:</h6>
+            <p class="card-text">@Html.Raw(Model.TaskOfPeriods[i].RoleAndInfluence?.Replace("\r\n", "<br />"))</p>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.TaskOfPeriods[0].Items[0].Manager)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.TaskOfPeriods[0].Items[0].Fullname)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.TaskOfPeriods[0].Items[0].Duty)
+                        </th>
+                        <th>جزئیات ارزیابی</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.TaskOfPeriods[i].Items)
+                    {
+                        <tr>
+                            <td>
+                                @(item.Manager ? "مدیر مستقیم" : "همکار")
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Fullname)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Duty)
+                            </td>
+                            <td>
+                                <a type="button" class="btn btn-sm btn-success" asp-page="./Detail" asp-route-id="@item.Id">جزئیات</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}

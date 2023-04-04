@@ -1,0 +1,78 @@
+﻿@page
+@model PerformanceManagementSystem.Areas.Admin.Pages.Users.EditModel
+
+@{
+    ViewData["Title"] = "ویرایش کاربر";
+}
+
+<h1>ویرایش</h1>
+
+<h4>کاربر</h4>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input asp-for="AppUser.Id" type="hidden" />
+            <div class="form-group">
+                <label asp-for="AppUser.Firstname" class="control-label"></label>
+                <input asp-for="AppUser.Firstname" class="form-control" />
+                <span asp-validation-for="AppUser.Firstname" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AppUser.Lastname" class="control-label"></label>
+                <input asp-for="AppUser.Lastname" class="form-control" />
+                <span asp-validation-for="AppUser.Lastname" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AppUser.PositionId" class="control-label"></label>
+                <select asp-for="AppUser.PositionId" class="form-control" asp-items="ViewBag.PositionId"></select>
+            </div>
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-2">
+                        <h6>مدیران</h6>
+                    </div>
+                    <div class="col-md-10">
+                        <select asp-for="AppUser.ManagerIds" placeHolder="جستجو" class="form-select" id="select_box" multiple asp-items="ViewBag.Managers">
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">بازگشت به لیست</a>
+</div>
+@section Css {
+    <link rel="stylesheet" href="~/lib/dselect/css/dselect.min.css">
+    <style>
+        .delBadge:hover {
+            cursor: pointer
+        }
+    </style>
+}
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script src="~/lib/dselect/js/dselect.min.js"></script>
+    <script>
+        var select_box_element = document.querySelector('#select_box');
+
+        dselect(select_box_element,
+            {
+                search: true,
+                searchPlaceHolder: "جستجو"
+            });
+    </script>
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

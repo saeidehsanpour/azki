@@ -1,0 +1,176 @@
+﻿@page
+@using PerformanceManagementSystem.Data.Enums
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model PerformanceManagementSystem.Areas.PerformanceManagement.Pages.SelfAssessments.EditModel
+
+@{
+    ViewData["Title"] = "ایجاد وظیفه جدید";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="TaskOfPeriod.Id" />
+            <input type="hidden" asp-for="TaskOfPeriod.PerformanceManagementPeriodUserMappingId" />
+            <select asp-for="TaskOfPeriod.CompetencyLevelIds" hidden="true" class="form-control">
+                @foreach (var level in Model.CompetencyLevels)
+                {
+                    <option selected value="@level.CompetencyLevelId">@level.CompetencyId</option>
+                }
+            </select>
+            <div class="form-group">
+                <label asp-for="TaskOfPeriod.Title"></label>
+                <input asp-for="TaskOfPeriod.Title" class="form-control" />
+                <span asp-validation-for="TaskOfPeriod.Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TaskOfPeriod.SuccessRate"></label>
+                <select asp-for="TaskOfPeriod.SuccessRate" class="form-control" asp-items="Html.GetEnumSelectList<SuccessRateEnum>()"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="TaskOfPeriod.Description"></label>
+                <textarea cols="40" rows="10" asp-for="TaskOfPeriod.Description" class="form-control"></textarea>
+                <span asp-validation-for="TaskOfPeriod.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TaskOfPeriod.RoleAndInfluence"></label>
+                <textarea cols="40" rows="10" asp-for="TaskOfPeriod.RoleAndInfluence" class="form-control"></textarea>
+                <span asp-validation-for="TaskOfPeriod.RoleAndInfluence" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="Competency">شایستگی های که در این وظیفه یا پروژه داشتم</label>
+                <select id="Competency" class="form-select" asp-items="ViewBag.Competencies">
+                    <option value="@Guid.Empty">انتخاب کنید</option>
+                </select>
+            </div>
+            <div class="input-group mb-2">
+                <select class="form-select" id="CompetencyLevelTaskMappingId" aria-label="از این شایستگی در این وظیفه یا پروژه در سطح زیر استفاده کردم">
+                </select>
+                <button class="btn btn-secondary" id="Add" type="button">افزودن +</button>
+            </div>
+            <ol class="list-group list-group-numbered mb-2" id="list">
+                @foreach (var level in Model.CompetencyLevels)
+                {
+
+                    <li id="@level.CompetencyLevelId" class="list-group-item d-flex justify-content-between align-items-start">
+                        <div class="ms-2 me-auto">
+                            <div class="fw-bold">@level.CompetencyName</div>@Html.Raw(level.CompetencyLevelName?.Replace("\r\n", "<br />"))
+                        </div><span class="badge bg-danger delBadge"><i onclick="deleteCompetencyLevel('@level.CompetencyLevelId')" class="cil-delete"></i></span>
+                    </li>
+                }
+            </ol>
+            <div class="row mb-2 mt-2">
+                <div class="col-md-6">
+                    <ul class="list-group list-group-horizontal mb-2">
+                        <li class="list-group-item">مدیر مستقیم</li>
+                        @foreach (var item in Model.ManagerNames)
+                        {
+                            <li class="list-group-item">@item</li>
+                        }
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <h6>همکاران</h6>
+                        </div>
+                        <div class="col-md-10">
+                            <select asp-for="TaskOfPeriod.TaskUserMentionIds" placeHolder="جستجو" class="form-select" id="select_box" multiple asp-items="ViewBag.TaskUserMentionIds">
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="ثبت" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Css {
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/lib/dselect/css/dselect.min.css">
+    <style>
+        .delBadge:hover {
+            cursor: pointer
+        }
+    </style>
+}
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="~/lib/dselect/js/dselect.min.js"></script>
+    <script>
+        var select_box_element = document.querySelector('#select_box');
+        $(document).ready(function() {
+            $('#CompetencyLevelTaskMappingId').select2();
+        });
+        dselect(select_box_element,
+            {
+                search: true,
+                searchPlaceHolder: "جستجو"
+            });
+        var competencies = [];
+        $(document).ready(function () {
+            const select = document.getElementById("TaskOfPeriod_CompetencyLevelIds");
+            for (var i = 0; i < select.options.length; i++) {
+                competencies.push({
+                    competencyId: select.options[i].text,
+                    competencyLevelId: select.options[i].value
+                });
+            }
+            console.log(select);
+        });
+        $(function () {
+            window.$("#Add").on("click",
+                function () {
+                    var competency = document.getElementById("Competency");
+                    var competencyText = competency.options[competency.selectedIndex].text;
+                    var competencyId = competency.options[competency.selectedIndex].value;
+                    var competencyLevel = document.getElementById("CompetencyLevelTaskMappingId");
+                    var competencyLevelId = competencyLevel.options[competencyLevel.selectedIndex].value;
+                    var competencyLevelText = competencyLevel.options[competencyLevel.selectedIndex].text;
+
+                    if (competencies.map(a => a.competencyId).indexOf(competencyId) === -1 && competencies.map(e => e.competencyLevelId).indexOf(competencyLevelId) === -1) {
+
+                        competencies.push({
+                            competencyId: competencyId,
+                            competencyLevelId: competencyLevelId
+                        });
+                        window.$("#list").append(`<li id='${competencyLevelId}' class="list-group-item d-flex justify-content-between align-items-start"><div class="ms-2 me-auto"><div class="fw-bold">${competencyText}</div>${competencyLevelText}</div><span class="badge bg-danger delBadge"><i onclick="deleteCompetencyLevel('${competencyLevelId}')" class="cil-delete"></i></span></li>`);
+                        window.$("#TaskOfPeriod_CompetencyLevelIds").append(`<option value="${competencyLevelId}" selected></option>`);
+                    }
+                    console.log(competencies);
+                });
+        });
+        $(function () {
+            window.$("#Competency").on("change",
+                function () {
+                    var competencyId = window.$(this).val();
+                    window.$("#CompetencyLevelTaskMappingId").empty();
+                    window.$.getJSON(`?handler=CompetencyLevels&competencyId=${competencyId}`,
+                        (data) => {
+                            window.$.each(data,
+                                function (i, item) {
+                                    window.$("#CompetencyLevelTaskMappingId").append(`<option value="${item.id}">${item.description}</option>`);
+                                });
+                        });
+                });
+        });
+
+        function deleteCompetencyLevel(competencyLevelId) {
+            console.log(competencyLevelId);
+            competencies = competencies.filter(item => item.competencyLevelId !== competencyLevelId);
+            window.$(`#${competencyLevelId}`).remove();
+            window.$(`#TaskOfPeriod_CompetencyLevelIds option[value='${competencyLevelId}']`).remove();
+        };
+    </script>
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

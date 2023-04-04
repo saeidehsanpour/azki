@@ -1,0 +1,94 @@
+﻿@page
+@using PerformanceManagementSystem.Data.Enums
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model PerformanceManagementSystem.Areas.PerformanceManagement.Pages.SelfAssessments.DetailModel
+
+@{
+    ViewData["Title"] = "ایجاد وظیفه جدید";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+            <label asp-for="TaskOfPeriod.Title"></label>
+            <input asp-for="TaskOfPeriod.Title" class="form-control" disabled />
+            <span asp-validation-for="TaskOfPeriod.Title" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="TaskOfPeriod.SuccessRate"></label>
+            <select asp-for="TaskOfPeriod.SuccessRate" class="form-control" disabled asp-items="Html.GetEnumSelectList<SuccessRateEnum>()"></select>
+        </div>
+        <div class="form-group">
+            <label asp-for="TaskOfPeriod.Description"></label>
+            <textarea cols="40" rows="10" asp-for="TaskOfPeriod.Description" disabled class="form-control"></textarea>
+            <span asp-validation-for="TaskOfPeriod.Description" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="TaskOfPeriod.RoleAndInfluence"></label>
+            <textarea cols="40" rows="10" asp-for="TaskOfPeriod.RoleAndInfluence" disabled class="form-control"></textarea>
+            <span asp-validation-for="TaskOfPeriod.RoleAndInfluence" class="text-danger"></span>
+        </div>
+        <ol class="list-group list-group-numbered mb-2" id="list">
+            @foreach (var level in Model.CompetencyLevels)
+            {
+
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                        <div class="fw-bold">@level.CompetencyName</div>@Html.Raw(level.CompetencyLevelName?.Replace("\r\n", "<br />"))
+                    </div>
+                </li>
+            }
+        </ol>
+        <div class="row mb-2 mt-2">
+            <div class="col-md-6">
+                <ul class="list-group list-group-horizontal mb-2">
+                    <li class="list-group-item">مدیر مستقیم</li>
+                    @foreach (var item in Model.ManagerNames)
+                    {
+                        <li class="list-group-item">@item</li>
+                    }
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-2">
+                        <h6>همکاران</h6>
+                    </div>
+                    <div class="col-md-10">
+                        <select asp-for="TaskOfPeriod.TaskUserMentionIds" placeHolder="جستجو" class="form-select" id="select_box" multiple asp-items="ViewBag.TaskUserMentionIds">
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section Css {
+    <link rel="stylesheet" href="~/lib/dselect/css/dselect.min.css">
+    <style>
+        .delBadge:hover {
+            cursor: pointer
+        }
+    </style>
+}
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script src="~/lib/dselect/js/dselect.min.js"></script>
+    <script>
+        var select_box_element = document.querySelector('#select_box');
+
+        dselect(select_box_element,
+            {
+                search: true,
+                searchPlaceHolder: "جستجو"
+            });
+    </script>
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

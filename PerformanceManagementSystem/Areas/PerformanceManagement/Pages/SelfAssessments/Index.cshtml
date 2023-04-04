@@ -1,0 +1,60 @@
+﻿@page
+@model PerformanceManagementSystem.Areas.PerformanceManagement.Pages.SelfAssessments.IndexModel
+
+@{
+    ViewData["Title"] = "لیست وظیفه های ثبت شده";
+}
+
+@if (Model.TaskOfPeriods.Count < 5 && !Model.EndDate)
+{
+    <p>
+        <a asp-page="Create">ایجاد وظیفه جدید</a>
+    </p>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TaskOfPeriods[0].Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TaskOfPeriods[0].NumberOfCompetencyLinked)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TaskOfPeriods[0].SuccessRate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TaskOfPeriods[0].NumberOfMentionUsers)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.TaskOfPeriods)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NumberOfCompetencyLinked)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SuccessRate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NumberOfMentionUsers)
+                </td>
+                <td>
+                    @if (!Model.EndDate)
+                    {
+                        <a type="button" class="btn btn-sm btn-success" asp-page="./Edit" asp-route-id="@item.Id">ویرایش</a>
+                        <a type="button" class="btn btn-sm btn-danger" asp-page="./Delete" asp-route-id="@item.Id">حذف</a>
+                    }
+                    <a type="button" class="btn btn-sm btn-warning" asp-page="./Detail" asp-route-id="@item.Id">جزئیات</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

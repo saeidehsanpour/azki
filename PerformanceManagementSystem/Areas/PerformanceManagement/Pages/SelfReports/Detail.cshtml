@@ -1,0 +1,37 @@
+﻿@page
+@model PerformanceManagementSystem.Areas.PerformanceManagement.Pages.SelfReports.DetailModel
+
+@{
+    ViewData["Title"] = "جزئیات وظیفه";
+}
+
+<div class="card mb-3">
+    <div class="card-header">
+        ارزیابی @Model.TaskOfPeriod.Fullname از وظیفه @Model.TaskOfPeriod.Title
+    </div>
+    <div class="card-body">
+        <h6 class="card-text">میزان مسئولیت:</h6>
+        <p class="card-text">@Html.DisplayFor(modelItem => Model.TaskOfPeriod.Duty)</p>
+        <h6 class="card-text">میزان موفقیت ارزیابی شونده:</h6>
+        <p class="card-text">@Html.DisplayFor(modelItem => Model.TaskOfPeriod.SuccessRate)</p>
+        <h6 class="card-text">توضیحات درمورد نقش فرد در این وظیفه:</h6>
+        <p class="card-text">@Model.TaskOfPeriod.Description</p>
+        <h6 class="card-text">ارزیابی شایستگی ها</h6>
+
+        <table class="table table-bordered">
+            <tbody>
+                @foreach (var item in Model.TaskOfPeriod.CompetencyLevels)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CompetencyName)
+                        </td>
+                        <td>
+                            @Html.Raw(item.CompetencyLevelName?.Replace("\r\n", "<br />"))
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

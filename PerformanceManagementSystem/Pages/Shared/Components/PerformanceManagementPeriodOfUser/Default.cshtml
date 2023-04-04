@@ -1,0 +1,6 @@
+﻿@model List<PerformanceManagementSystem.Data.Views.PerformanceManagementPeriods.PerformanceManagementPeriodResponseDto>
+
+@foreach (var item in Model)
+{
+    <li class="nav-item"><a class="@Tools.ActivePerformanceManagementPeriod(Context,item.Id)" asp-area="PerformanceManagement" asp-route-timeId="@item.Id">@item.Title</a></li>
+}

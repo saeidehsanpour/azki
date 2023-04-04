@@ -1,0 +1,27 @@
+image: docker
+
+services:
+  - docker:dind
+
+stages:
+  - test
+  - deploy
+
+test:
+  stage: test
+  only:
+    - production
+    - develop
+  script:
+    - echo run tests in this section
+
+step-deploy-develop:
+  stage: deploy
+  only:
+    - develop
+  script:
+    - sudo apt-get install -y python3-pip
+    - pip install docker-compose
+    - docker-compose -f docker-compose-develop.yml build --no-cache azki.develop
+    - docker-compose -f docker-compose-develop.yml up -d --force-recreate azki.develop
+  environment: DEVELOPMENT

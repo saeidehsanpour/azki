@@ -1,0 +1,49 @@
+﻿@page
+@model PerformanceManagementSystem.Areas.Admin.Pages.Organizations.IndexModel
+
+@{
+    ViewData["Title"] = "لیست شرکت ها";
+}
+
+<h1>لیست شرکت ها</h1>
+
+<p>
+    <a asp-page="Create">ایجاد شرکت جدید</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Organizations[0].Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Organizations[0].AdminUserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Organizations[0].Active)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Organizations)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AdminUserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Active)
+                </td>
+                <td>
+                    <a type="button" class="btn btn-sm btn-primary" asp-area="Admin" asp-page="/Positions/Index" asp-route-organizationId="@item.Id">مقام ها</a>
+                    <a type="button" class="btn btn-sm btn-success" asp-page="./Edit" asp-route-id="@item.Id">ویرایش</a>
+                    <a type="button" class="btn btn-sm btn-danger" asp-page="./Delete" asp-route-id="@item.Id">حذف</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

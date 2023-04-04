@@ -1,0 +1,129 @@
+﻿@page
+@using PerformanceManagementSystem.Data.Views.TaskOfPeriods
+@model PerformanceManagementSystem.Areas.PerformanceManagement.Pages.ManagerAssessments.OverallModel
+
+@{
+    ViewData["Title"] = "جمع بندی شایستگی ها";
+}
+<form method="post">
+    <input type="hidden" asp-for="TaskOfPeriodOverall.PerformanceManagementPeriodUserMappingId" />
+    <div class="card">
+        <div class="card-header">
+            ارزیابی کلی مدیر
+        </div>
+        <div class="card-body">
+            <div class="form-group">
+                <label asp-for="TaskOfPeriodOverall.Description"></label>
+                <textarea cols="40" rows="10" asp-for="TaskOfPeriodOverall.Description" class="form-control"></textarea>
+                <span asp-validation-for="TaskOfPeriodOverall.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TaskOfPeriodOverall.Continue"></label>
+                <textarea cols="40" rows="10" asp-for="TaskOfPeriodOverall.Continue" class="form-control"></textarea>
+                <span asp-validation-for="TaskOfPeriodOverall.Continue" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TaskOfPeriodOverall.ShouldImprove"></label>
+                <textarea cols="40" rows="10" asp-for="TaskOfPeriodOverall.ShouldImprove" class="form-control"></textarea>
+                <span asp-validation-for="TaskOfPeriodOverall.ShouldImprove" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TaskOfPeriodOverall.RoleAndInfluence"></label>
+                <textarea cols="40" rows="10" asp-for="TaskOfPeriodOverall.RoleAndInfluence" class="form-control"></textarea>
+                <span asp-validation-for="TaskOfPeriodOverall.RoleAndInfluence" class="text-danger"></span>
+            </div>
+            <div class="container text-center">
+                <div class="row justify-content-center">
+                    <div class="col-5 mb-1">
+                        <div class="position-relative">
+                            <label class="position-absolute top-100 start-100 translate-middle">زمان انجام وظایف</label>
+                            <label class="position-absolute top-0 start-100 translate-middle">زیاد</label>
+                            <input type="radio" class="btn-check" name="TaskOfPeriodOverall.SuccessRate" value="25" id="buttonA" autocomplete="off" checked="@(Model.TaskOfPeriodOverall.SuccessRate == SuccessRateRequestEnum.A)">
+                            <label class="btn btn-outline-primary btn-large" for="buttonA">A</label>
+                            <input type="radio" class="btn-check" name="TaskOfPeriodOverall.SuccessRate" value="15" id="buttonC" autocomplete="off" checked="@(Model.TaskOfPeriodOverall.SuccessRate == SuccessRateRequestEnum.C)">
+                            <label class="btn btn-outline-primary btn-large" for="buttonC">C</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container text-center">
+                <div class="row justify-content-center">
+                    <div class="col-5">
+                        <div class="position-relative">
+                            <label class="position-absolute top-100 start-100 translate-middle">کم</label>
+                            <label class="position-absolute top-100 start-50 translate-middle">کیفیت انجام وظایف</label>
+                            <label class="position-absolute top-100 start-0 translate-middle">زیاد</label>
+                            <input type="radio" class="btn-check" name="TaskOfPeriodOverall.SuccessRate" value="20" id="buttonB" autocomplete="off" checked="@(Model.TaskOfPeriodOverall.SuccessRate == SuccessRateRequestEnum.B)">
+                            <label class="btn btn-outline-primary btn-large" for="buttonB">B</label>
+                            <input type="radio" class="btn-check" name="TaskOfPeriodOverall.SuccessRate" value="10" id="buttonD" autocomplete="off" checked="@(Model.TaskOfPeriodOverall.SuccessRate == SuccessRateRequestEnum.D)">
+                            <label class="btn btn-outline-primary btn-large" for="buttonD">D</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            جمع بندی شایستگی ها
+        </div>
+        <div class="card-body">
+            <table class="table mb-3">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.TaskOfPeriods[0].Title)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.TaskOfPeriods[0].CompetencyLevel)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.TaskOfPeriods)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Title)
+                            </td>
+                            <td>
+                                @Html.Raw(item.CompetencyLevel.Replace("\r\n", "<br />"))
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <table class="table table-bordered">
+                <tbody>
+                    @for (int i = 0; i < Model.CompetencyLevelsNotSubmitted.Count; i++)
+                    {
+                        <tr class="table-group-divider">
+                            <td colspan="2">
+                                @Html.DisplayFor(modelItem => Model.CompetencyLevelsNotSubmitted[i].Title)
+                            </td>
+                            <td>
+                                <label asp-for="TaskOfPeriodOverall.CompetencyLevelTaskMappings[i].CompetencyLevelId"></label>
+                                <select asp-for="TaskOfPeriodOverall.CompetencyLevelTaskMappings[i].CompetencyLevelId" class="form-control">
+                                    @foreach (var item in Model.CompetencyLevelsNotSubmitted[i].Levels)
+                                    {
+                                        <option value="@item.Id">@Html.Raw(item.Description.Replace("\r\n", "<br />"))</option>
+                                    }
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                                <label asp-for="TaskOfPeriodOverall.CompetencyLevelTaskMappings[i].Description"></label>
+                                <textarea cols="40" rows="10" asp-for="TaskOfPeriodOverall.CompetencyLevelTaskMappings[i].Description" class="form-control"></textarea>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="form-group">
+                <input type="submit" value="ثبت" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+</form>

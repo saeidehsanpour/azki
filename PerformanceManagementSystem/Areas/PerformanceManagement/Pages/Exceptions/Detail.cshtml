@@ -1,0 +1,40 @@
+﻿@page
+@model PerformanceManagementSystem.Areas.PerformanceManagement.Pages.Exceptions.DetailModel
+
+@{
+    ViewData["Title"] = "انتظارات";
+}
+
+<div class="card mb-3">
+    <div class="card-header">
+        انتظارات مدیر مستقیم @Model.UserException.Fullname
+    </div>
+    <div class="card-body">
+        <h6 class="card-text">@Html.DisplayNameFor(modelItem => Model.UserException.Continue):</h6>
+        <p class="card-text">@Model.UserException.Continue</p>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.UserException.Items[0].CompetencyName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UserException.Items[0].Description)
+                </th>
+            </tr>
+            </thead> <tbody>
+                @foreach (var item in Model.UserException.Items)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CompetencyName)
+                        </td>
+                        <td>
+                            @Html.Raw(item.CompetencyName.Replace("\r\n", "<br />")))
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
