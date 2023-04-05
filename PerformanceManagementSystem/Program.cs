@@ -100,7 +100,6 @@ using (var scope = app.Services.CreateScope())
     context.Database.Migrate();
 
     var hasAdmin = context.Users.Any(a => a.UserName == "admin@info.com");
-    var hasPerformance = context.PerformanceManagementPeriods.Any();
 
     if (!hasAdmin)
     {
@@ -140,39 +139,6 @@ using (var scope = app.Services.CreateScope())
                 userManager.AddClaimAsync(user, new Claim(ClaimTypes.GivenName, $"{user.Firstname} {user.Lastname}")).GetAwaiter().GetResult();
             }
         }
-    }
-    if (!hasPerformance)
-    {
-        var id = Guid.NewGuid();
-        var performance = new PerformanceManagementPeriod
-        {
-            Id = id,
-            Title = "بهار 1402",
-            Active = true,
-            CreatedDate = DateTimeOffset.UtcNow,
-            ManagerScoreEndDate = DateTimeOffset.UtcNow.AddDays(20),
-            ManagerScoreStartDate = DateTimeOffset.UtcNow.AddDays(10),
-            OtherScoreEndDate = DateTimeOffset.UtcNow.AddDays(10),
-            OtherScoreStartDate = DateTimeOffset.UtcNow.AddDays(5),
-            SelfScoreEndDate = DateTimeOffset.UtcNow.AddDays(5),
-            SelfScoreStartDate = DateTimeOffset.UtcNow,
-            OrganizationId = Guid.Parse("f94382a6-c988-4b47-a09a-061ffa3a0920"),
-            PerformanceManagementPeriodUserMappings = new List<PerformanceManagementPeriodUserMapping>
-            {
-                new PerformanceManagementPeriodUserMapping
-                {
-                    Title = string.Empty,
-                    Id = Guid.NewGuid(),
-                    Active = true,
-                    CreatedDate = DateTimeOffset.UtcNow,
-                    PerformanceManagementPeriodId = id,
-                    UpdatedDate = DateTimeOffset.UtcNow,
-                    UserId = Guid.Parse("777eb1d5-e50f-4f0f-bf49-a17745c7f370")
-                }
-            }
-        };
-        context.PerformanceManagementPeriods.Add(performance);
-        context.SaveChanges();
     }
 }
 app.Run();
